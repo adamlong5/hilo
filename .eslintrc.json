@@ -4,5 +4,9 @@
         "react",
         "jsx-a11y",
         "import"
-    ]
+    ],
+    "rules": {
+      "semi": 0,
+      "react/jsx-filename-extension": 0
+    }
 }

@@ -1,0 +1,9 @@
+import Score from '../../../src/components/score/Score'
+
+describe('<Score />', function () {
+  it('Creates a Scoreboard', function () {
+    const wrapper = shallow(<Score player1={3} player2={2} />)
+    expect(wrapper.text()).to.contain('Player 1: 3')
+    expect(wrapper.text()).to.contain('Player 2: 2')
+  });
+});

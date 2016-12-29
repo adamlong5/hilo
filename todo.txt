@@ -1,0 +1,17 @@
+# Hilo Game
+
+## Score
+Player 1: 3
+Player 2: 2
+
+## Deck
+Left in deck: 45
+Drawn cards: [1H,2C,3D]
+Points on the line: 3
+
+## Current Player
+Turn: Player 1
+Buttons:
+  Play
+  Pass [disabled if less than 3]
+  Reset Game
