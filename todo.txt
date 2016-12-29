@@ -15,3 +15,10 @@ Buttons:
   Play
   Pass [disabled if less than 3]
   Reset Game
+
+Game state = {
+  deck_id = ''
+  drawnCards = [''],
+  discardedCards = ['']
+  playing = 0,
+}

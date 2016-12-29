@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-export const Score = props => (
+export const ScoreComponent = props => (
   <div>
     <div>
       <strong>Player 1</strong>: {props.player1 || 0}
@@ -12,17 +12,17 @@ export const Score = props => (
   </div>
 )
 
-Score.propTypes = {
+ScoreComponent.propTypes = {
   player1: React.PropTypes.number,
   player2: React.PropTypes.number,
 }
 
-const mapStateToProps = ({ score }) => ({
-  player1: score[0],
-  player2: score[1],
+const mapStateToProps = ({ scores }) => ({
+  player1: scores[0],
+  player2: scores[1],
 })
-const ScoreContainer = connect(
+const Score = connect(
   mapStateToProps,
-)(Score)
+)(ScoreComponent)
 
-export default ScoreContainer
+export default Score

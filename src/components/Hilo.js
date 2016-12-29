@@ -1,5 +1,5 @@
 import React from 'react'
-import Score from './score/Score'
+import Score from './Score'
 
 const Hilo = () =>
   <div>
