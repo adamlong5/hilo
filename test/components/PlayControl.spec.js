@@ -8,8 +8,9 @@ describe('<PlayControl />', function () {
 
     const wrapper = shallow(
       <PlayControlComponent
-        playingId={1}
         drawCard={drawCard}
+        drawPileLength={3}
+        playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
       />
@@ -28,6 +29,33 @@ describe('<PlayControl />', function () {
     expect(drawCard.calledWith('AS')).to.be.true
 
     testButton('Swap Players', swapPlayers)
+    const swapButton = wrapper
+      .find('button')
+      .findWhere(n => n.text() === 'Swap Players')
+      .at(0)
+    expect(swapButton).to.not.have.attr('disabled')
+
     testButton('Reset Game', resetGame)
+  });
+
+  it('Disables the swap button for small draw piles', function () {
+    const drawCard = sinon.stub().returns('10S')
+    const resetGame = sinon.spy()
+    const swapPlayers = sinon.spy()
+
+    const wrapper = shallow(
+      <PlayControlComponent
+        drawCard={drawCard}
+        drawPileLength={2}
+        playingId={1}
+        resetGame={resetGame}
+        swapPlayers={swapPlayers}
+      />
+    )
+    const swapButton = wrapper
+      .find('button')
+      .findWhere(n => n.text() === 'Swap Players')
+      .at(0)
+    expect(swapButton).to.have.attr('disabled')
   });
 });
