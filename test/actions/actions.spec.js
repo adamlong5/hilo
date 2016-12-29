@@ -7,13 +7,15 @@ import {
 
 describe('Action Creators', function () {
   it('addToScore', function () {
-    expect(addToScore(0)).to.deep.equal({
+    expect(addToScore(0, 2)).to.deep.equal({
       type: 'ADD_TO_SCORE',
-      playerId: 0
+      playerId: 0,
+      amount: 2
     })
-    expect(addToScore(1)).to.deep.equal({
+    expect(addToScore(1, 1)).to.deep.equal({
       type: 'ADD_TO_SCORE',
-      playerId: 1
+      playerId: 1,
+      amount: 1
     })
   });
 

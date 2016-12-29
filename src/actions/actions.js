@@ -1,6 +1,7 @@
-export const addToScore = playerId => ({
+export const addToScore = (playerId, amount) => ({
   type: 'ADD_TO_SCORE',
   playerId,
+  amount
 })
 
 export const drawCard = card => ({

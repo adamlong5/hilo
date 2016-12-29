@@ -20,9 +20,9 @@ const swapPlayers = (state) => {
 
 const addToScore = (state, action) => {
   const newState = Object.assign({}, state)
-  const { playerId } = action
+  const { playerId, amount } = action
   newState.scores = Object.assign({}, newState.scores)
-  newState.scores[playerId] += 1
+  newState.scores[playerId] += amount
   return newState
 }
 

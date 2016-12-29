@@ -11,7 +11,8 @@ describe('Reducer', function () {
 
     const addTo0 = {
       type: 'ADD_TO_SCORE',
-      playerId: 0
+      playerId: 0,
+      amount: 1
     }
     expect(game(state, addTo0).scores).to.deep.equal({
       0: 5,
@@ -20,11 +21,12 @@ describe('Reducer', function () {
 
     const addTo1 = {
       type: 'ADD_TO_SCORE',
-      playerId: 1
+      playerId: 1,
+      amount: 3
     }
     expect(game(state, addTo1).scores).to.deep.equal({
       0: 4,
-      1: 3
+      1: 5
     })
   });
 
