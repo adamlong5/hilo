@@ -3,6 +3,7 @@ import chai from 'chai';
 const { expect } = chai;
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
+import sinon from 'sinon';
 import chaiEnzyme from 'chai-enzyme';
 chai.use(chaiEnzyme());
 
@@ -11,6 +12,7 @@ global.shallow = shallow;
 global.mount = mount;
 global.render = render;
 global.React = React;
+global.sinon = sinon;
 
 const exposedProperties = ['window', 'navigator', 'document'];
 
