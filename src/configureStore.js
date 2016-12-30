@@ -14,6 +14,7 @@ const defaultState = {
     0: 0,
     1: 0,
   },
+  winner: false,
 }
 export default function configureStore(deckId) {
   const preloadedState = defaultState

@@ -26,4 +26,3 @@ Game state = {
 
 Todo
 - End game
-- Reset

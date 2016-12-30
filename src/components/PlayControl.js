@@ -11,7 +11,11 @@ import {
 export const PlayControlComponent = (props) => {
   if (!props.drawPileLength && props.cardsRemainingInDeck) {
     props.drawCard(props.deckId)
-    return null // Hide the controls
+  }
+  if (props.winner) {
+    return (
+      <div>{`Player ${props.winner + 1} Wins!`}</div>
+    )
   }
 
   return (
@@ -29,7 +33,7 @@ export const PlayControlComponent = (props) => {
         onClick={props.swapPlayers}
         disabled={props.drawPileLength < 4 || props.cardsRemainingInDeck === 0}
       >Swap Players</button>
-      <button onClick={props.resetGame}>Reset Game</button>
+      <button onClick={() => props.resetGame(props.deckId)}>Reset Game</button>
     </div>
   )
 }
@@ -44,14 +48,23 @@ PlayControlComponent.propTypes = {
   playingId: React.PropTypes.number.isRequired,
   resetGame: React.PropTypes.func.isRequired,
   swapPlayers: React.PropTypes.func.isRequired,
+  winner: React.PropTypes.oneOf(React.PropTypes.bool, React.PropTypes.number)
 }
 
-const mapStateToProps = ({ deckId, discardPile, drawPile, playingId }) => ({
-  deckId,
-  playingId,
-  drawPileLength: drawPile.length || 0,
-  cardsRemainingInDeck: (52 - drawPile.length - discardPile.length) || 52,
-})
+const mapStateToProps = ({
+    deckId,
+    discardPile,
+    drawPile,
+    playingId,
+    winner,
+  }) => ({
+    deckId,
+    playingId,
+    drawPileLength: drawPile.length || 0,
+    cardsRemainingInDeck: (52 - drawPile.length - discardPile.length) || 52,
+    winner,
+  })
+
 const PlayControl = connect(
   mapStateToProps,
   { drawCard, guessHigh, guessLow, resetGame, swapPlayers },

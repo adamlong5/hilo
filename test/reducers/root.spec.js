@@ -144,7 +144,7 @@ describe('Reducer', function () {
       },
     }
     const action = {
-      type: 'RESET',
+      type: 'RESET_FULFILLED',
       payload: 'foo'
     }
     const expectedState = Object.assign({}, defaultState)

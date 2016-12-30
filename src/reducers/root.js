@@ -72,6 +72,7 @@ export const defaultState = {
     0: 0,
     1: 0,
   },
+  winner: false,
 }
 
 const resetGame = (state, action) => {
@@ -87,7 +88,7 @@ export default function game(state = defaultState, action) {
       return drawCard(state, action)
     case 'SWAP_PLAYERS':
       return swapPlayers(state)
-    case 'RESET':
+    case 'RESET_FULFILLED':
       return resetGame(state, action)
     default:
       return state

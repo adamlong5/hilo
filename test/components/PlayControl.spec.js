@@ -24,6 +24,7 @@ describe('<PlayControl />', function () {
         playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
+        winner={false}
       />
     )
     expect(wrapper.text()).to.contain('Current Player: Player 2')
@@ -41,9 +42,10 @@ describe('<PlayControl />', function () {
     expect(guessLow.calledWith('7')).to.be.true
     testButton(wrapper, 'Swap Players', swapPlayers)
     testButton(wrapper, 'Reset Game', resetGame)
+    expect(resetGame.calledWith('7')).to.be.true
   });
 
-  it('Renders nothing and draws a card when no draw pile', function () {
+  it('Draws a card when no draw pile', function () {
     const drawCard = sinon.spy()
     const guessHigh = sinon.spy()
     const guessLow = sinon.spy()
@@ -61,9 +63,9 @@ describe('<PlayControl />', function () {
         playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
+        winner={false}
       />
     )
-    expect(wrapper.text()).to.be.empty
     expect(drawCard).to.have.property('callCount', 1)
     expect(drawCard.calledWith('7')).to.be.true
   });
@@ -86,6 +88,7 @@ describe('<PlayControl />', function () {
         playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
+        winner={false}
       />
     )
     expect(wrapper.text()).to.contain('Current Player: Player 2')
@@ -118,10 +121,35 @@ describe('<PlayControl />', function () {
         playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
+        winner={false}
       />
     )
 
     const swapButton = findButton(wrapper, 'Swap Players')
     expect(swapButton).to.have.attr('disabled')
+  });
+
+  it('Displays a winner message', function () {
+    const drawCard = sinon.spy()
+    const guessHigh = sinon.spy()
+    const guessLow = sinon.spy()
+    const resetGame = sinon.spy()
+    const swapPlayers = sinon.spy()
+
+    const wrapper = shallow(
+      <PlayControlComponent
+        cardsRemainingInDeck={9}
+        deckId={'7'}
+        drawCard={drawCard}
+        drawPileLength={3}
+        guessHigh={guessHigh}
+        guessLow={guessLow}
+        playingId={1}
+        resetGame={resetGame}
+        swapPlayers={swapPlayers}
+        winner={1}
+      />
+    )
+    expect(wrapper.text()).to.equal('Player 2 Wins!')
   });
 });
