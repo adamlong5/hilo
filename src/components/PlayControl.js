@@ -6,7 +6,7 @@ export const PlayControlComponent = props => (
   <div>
     <strong>Current Player</strong>: { `Player ${props.playingId + 1 || 1}` }
     <button onClick={() => props.drawCard(props.deckId)}>Draw Card</button>
-    <button onClick={props.swapPlayers} disabled={props.drawPileLength < 3}>Swap Players</button>
+    <button onClick={props.swapPlayers} disabled={props.drawPileLength < 4}>Swap Players</button>
     <button onClick={props.resetGame}>Reset Game</button>
   </div>
 )
