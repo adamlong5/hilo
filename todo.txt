@@ -12,7 +12,8 @@ Points on the line: 3
 ## Current Player
 Turn: Player 1
 Buttons:
-  Play
+  Guess High
+  Guess Low
   Pass [disabled if less than 3]
   Reset Game
 
@@ -22,3 +23,19 @@ Game state = {
   discardedCards = ['']
   playing = 0,
 }
+
+Gameplay
+Flip card (neutral)
+  Guess correctly
+    Flip another card
+  Guess incorrectly
+    Put cards into discard
+    Add to that player's score
+  Out of cards in deck
+    End the game in some way
+    Disable buttons
+  Swap players
+    Swap active playerId
+    Disable swap until they have made a guess
+RESET
+  Shuffle deck
