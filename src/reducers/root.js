@@ -40,16 +40,16 @@ const getDrawPileLength = state => state.drawPile.length
 
 const drawCard = (state, action) => {
   let newState = Object.assign({}, state)
-  const newCard = action.payload
+  const newCard = action.payload.card
   newState.drawPile = [...newState.drawPile, newCard]
-  if (action.guess !== 0) {
+  if (action.payload.guess !== 0) {
     // Check their guess
     const drawPileLength = getDrawPileLength(newState)
     const lastCard = newState.drawPile[drawPileLength - 2]
     const newCardVal = convertCardToNumber(newCard)
     const lastCardVal = convertCardToNumber(lastCard)
 
-    const correctGuess = action.guess === 1 ?
+    const correctGuess = action.payload.guess === 1 ?
       newCardVal >= lastCardVal : newCardVal <= lastCardVal
 
     if (!correctGuess) {

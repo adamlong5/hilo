@@ -7,8 +7,10 @@ describe('Reducer', function () {
     }
     const action = {
       type: 'DRAW_CARD_FULFILLED',
-      payload: '10S',
-      guess: 0
+      payload: {
+        card: '10S',
+        guess: 0
+      }
     }
     expect(game(state, action)).to.deep.equal({
       drawPile: ['AS', 'KS', '10S']
@@ -29,8 +31,10 @@ describe('Reducer', function () {
     // Correct guess
     const correctGuess = {
       type: 'DRAW_CARD_FULFILLED',
-      payload: 'JD',
-      guess: 1
+      payload: {
+        card: 'JD',
+        guess: 1
+      }
     }
     const correctResult = game(state, correctGuess)
     expect(correctResult).to.deep.equal({
@@ -46,8 +50,10 @@ describe('Reducer', function () {
     // Incorrect guess
     const incorrectGuess = {
       type: 'DRAW_CARD_FULFILLED',
-      payload: '3D',
-      guess: 1
+      payload: {
+        card: '3D',
+        guess: 1
+      }
     }
     const incorrectResult = game(state, incorrectGuess)
     expect(incorrectResult).to.deep.equal({
@@ -76,8 +82,10 @@ describe('Reducer', function () {
     // Correct guess
     const correctGuess = {
       type: 'DRAW_CARD_FULFILLED',
-      payload: '3D',
-      guess: -1
+      payload: {
+        card: '3D',
+        guess: -1
+      }
     }
     const correctResult = game(state, correctGuess)
     expect(correctResult).to.deep.equal({
@@ -93,8 +101,10 @@ describe('Reducer', function () {
     // Incorrect guess
     const incorrectGuess = {
       type: 'DRAW_CARD_FULFILLED',
-      payload: 'JD',
-      guess: -1
+      payload: {
+        card: 'JD',
+        guess: -1
+      }
     }
     const incorrectResult = game(state, incorrectGuess)
     expect(incorrectResult).to.deep.equal({

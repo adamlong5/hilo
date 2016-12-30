@@ -24,7 +24,14 @@ describe('Action Creators', function () {
       then() {
         return {
           then() {
-            return 'foo'
+            return {
+              then() {
+                return {
+                  card: 'foo',
+                  guess
+                }
+              }
+            }
           }
         }
       }
@@ -32,8 +39,7 @@ describe('Action Creators', function () {
     const fetch = sinon.stub().returns(stub)
     expect(drawCard('7', fetch, guess)).to.deep.equal({
       type: 'DRAW_CARD',
-      payload: 'foo',
-      guess
+      payload: { card: 'foo', guess }
     })
   }
 
