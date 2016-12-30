@@ -1,23 +1,14 @@
 import { applyMiddleware, createStore, compose } from 'redux'
 import promiseMiddleware from 'redux-promise-middleware'
 import rootReducer from './reducers/root'
+import getDefaultState from './reducers/defaultState'
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const defaultState = {
-  deckId: '',
-  playingId: 0,
-  drawPile: [],
-  discardPile: [],
-  scores: {
-    0: 0,
-    1: 0,
-  },
-  winner: false,
-}
+
 export default function configureStore(deckId) {
-  const preloadedState = defaultState
+  const preloadedState = getDefaultState()
   preloadedState.deckId = deckId
   return createStore(
     rootReducer,

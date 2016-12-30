@@ -1,16 +1,19 @@
-import game, { defaultState } from '../../src/reducers/root'
+import game from '../../src/reducers/root'
+import getDefaultState from '../../src/reducers/defaultState'
 
 describe('Reducer', function () {
+  // Helper function to set up states by taking an object
+  // that has changes from the default state.
+  const makeState = overrides => Object.assign(
+    getDefaultState(),
+    overrides
+  )
+
   it('Draws a card', function () {
-    const state = {
+    const state = makeState({
       drawPile: ['AS', 'KS'],
-      discardPile: [],
-      winner: false,
-      scores: {
-        0: 2,
-        1: 1,
-      }
-    }
+    })
+
     const action = {
       type: 'DRAW_CARD_FULFILLED',
       payload: {
@@ -18,29 +21,23 @@ describe('Reducer', function () {
         guess: 0
       }
     }
-    expect(game(state, action)).to.deep.equal({
-      drawPile: ['AS', 'KS', '10S'],
-      discardPile: [],
-      winner: false,
-      scores: {
-        0: 2,
-        1: 1,
-      }
-    })
+    expect(game(state, action)).to.deep.equal(
+      makeState({
+        drawPile: ['AS', 'KS', '10S'],
+      })
+    )
   });
 
   it('Guesses high', function () {
-    const state = {
-      deckId: 'lksjssjl',
-      playingId: 1,
+    const state = makeState({
       drawPile: ['AS', '10D'],
       discardPile: ['KD'],
+      playingId: 1,
       scores: {
         0: 3,
-        1: 7,
-      },
-      winner: false
-    }
+        1: 7
+      }
+    })
     // Correct guess
     const correctGuess = {
       type: 'DRAW_CARD_FULFILLED',
@@ -50,17 +47,17 @@ describe('Reducer', function () {
       }
     }
     const correctResult = game(state, correctGuess)
-    expect(correctResult).to.deep.equal({
-      deckId: 'lksjssjl',
-      playingId: 1,
-      drawPile: ['AS', '10D', 'JD'],
-      discardPile: ['KD'],
-      scores: {
-        0: 3,
-        1: 7,
-      },
-      winner: false
-    })
+    expect(correctResult).to.deep.equal(
+      makeState({
+        playingId: 1,
+        drawPile: ['AS', '10D', 'JD'],
+        discardPile: ['KD'],
+        scores: {
+          0: 3,
+          1: 7,
+        }
+      })
+    )
     // Incorrect guess
     const incorrectGuess = {
       type: 'DRAW_CARD_FULFILLED',
@@ -70,22 +67,21 @@ describe('Reducer', function () {
       }
     }
     const incorrectResult = game(state, incorrectGuess)
-    expect(incorrectResult).to.deep.equal({
-      deckId: 'lksjssjl',
-      playingId: 1,
-      drawPile: [],
-      discardPile: ['KD', 'AS', '10D', '3D'],
-      scores: {
-        0: 3,
-        1: 10,
-      },
-      winner: false
-    })
+    expect(incorrectResult).to.deep.equal(
+      makeState({
+        playingId: 1,
+        drawPile: [],
+        discardPile: ['KD', 'AS', '10D', '3D'],
+        scores: {
+          0: 3,
+          1: 10,
+        },
+      })
+    )
   });
 
   it('Guesses low', function () {
-    const state = {
-      deckId: 'lksjssjl',
+    const state = makeState({
       playingId: 1,
       drawPile: ['AS', '10D'],
       discardPile: ['KD'],
@@ -93,8 +89,7 @@ describe('Reducer', function () {
         0: 3,
         1: 7,
       },
-      winner: false
-    }
+    })
     // Correct guess
     const correctGuess = {
       type: 'DRAW_CARD_FULFILLED',
@@ -104,17 +99,17 @@ describe('Reducer', function () {
       }
     }
     const correctResult = game(state, correctGuess)
-    expect(correctResult).to.deep.equal({
-      deckId: 'lksjssjl',
-      playingId: 1,
-      drawPile: ['AS', '10D', '3D'],
-      discardPile: ['KD'],
-      scores: {
-        0: 3,
-        1: 7,
-      },
-      winner: false
-    })
+    expect(correctResult).to.deep.equal(
+      makeState({
+        playingId: 1,
+        drawPile: ['AS', '10D', '3D'],
+        discardPile: ['KD'],
+        scores: {
+          0: 3,
+          1: 7,
+        },
+      })
+    )
     // Incorrect guess
     const incorrectGuess = {
       type: 'DRAW_CARD_FULFILLED',
@@ -124,29 +119,28 @@ describe('Reducer', function () {
       }
     }
     const incorrectResult = game(state, incorrectGuess)
-    expect(incorrectResult).to.deep.equal({
-      deckId: 'lksjssjl',
-      playingId: 1,
-      drawPile: [],
-      discardPile: ['KD', 'AS', '10D', 'JD'],
-      scores: {
-        0: 3,
-        1: 10,
-      },
-      winner: false
-    })
+    expect(incorrectResult).to.deep.equal(
+      makeState({
+        playingId: 1,
+        drawPile: [],
+        discardPile: ['KD', 'AS', '10D', 'JD'],
+        scores: {
+          0: 3,
+          1: 10,
+        },
+      })
+    )
   });
 
   it('Ends the game when no cards left', function () {
-    const state = {
+    const state = makeState({
       drawPile: ['AS', 'KS'],
       discardPile: Array.from({length: 49}).fill('foo'),
       scores: {
         0: 3,
         1: 2
       },
-      winner: false
-    }
+    })
 
     const action = {
       type: 'DRAW_CARD_FULFILLED',
@@ -155,28 +149,28 @@ describe('Reducer', function () {
         guess: 0
       }
     }
-    expect(game(state, action)).to.deep.equal({
-      drawPile: ['AS', 'KS', '10S'],
-      discardPile: Array.from({length: 49}).fill('foo'),
-      scores: {
-        0: 3,
-        1: 2
-      },
-      winner: 0
-    })
+    expect(game(state, action)).to.deep.equal(
+      makeState({
+        drawPile: ['AS', 'KS', '10S'],
+        discardPile: Array.from({length: 49}).fill('foo'),
+        scores: {
+          0: 3,
+          1: 2
+        },
+        winner: 0
+      })
+    )
   });
 
   it('Ends the game when one player has 27', function () {
-    const state = {
+    const state = makeState({
       drawPile: ['AS', 'KS'],
-      discardPile: [],
       scores: {
         0: 2,
         1: 24
       },
       playingId: 1,
-      winner: false
-    }
+    })
 
     const action = {
       type: 'DRAW_CARD_FULFILLED',
@@ -185,22 +179,21 @@ describe('Reducer', function () {
         guess: 1
       }
     }
-    expect(game(state, action)).to.deep.equal({
-      drawPile: [],
-      discardPile: ['AS', 'KS', '10S'],
-      playingId: 1,
-      scores: {
-        0: 2,
-        1: 27
-      },
-      winner: 0
-    })
+    expect(game(state, action)).to.deep.equal(
+      makeState({
+        discardPile: ['AS', 'KS', '10S'],
+        playingId: 1,
+        scores: {
+          0: 2,
+          1: 27
+        },
+        winner: 0
+      })
+    )
   });
 
   it('Swaps players', function () {
-    const state = {
-      playingId: 0
-    }
+    const state = getDefaultState()
     const action = {
       type: 'SWAP_PLAYERS'
     }
@@ -211,8 +204,7 @@ describe('Reducer', function () {
   });
 
   it('Resets the game', function () {
-    const state = {
-      deckId: 'lksjssjl',
+    const state = makeState({
       playingId: 1,
       drawPile: ['AS'],
       discardPile: ['KD'],
@@ -220,12 +212,12 @@ describe('Reducer', function () {
         0: 3,
         1: 7,
       },
-    }
+    })
     const action = {
       type: 'RESET_FULFILLED',
       payload: 'foo'
     }
-    const expectedState = Object.assign({}, defaultState)
+    const expectedState = Object.assign({}, getDefaultState())
     expectedState.deckId = 'foo'
     expect(game(state, action)).to.deep.equal(expectedState)
   });

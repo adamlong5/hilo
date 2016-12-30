@@ -1,3 +1,5 @@
+import getDefaultState from './defaultState'
+
 const convertCardToNumber = (card) => {
   const valueMarker = card.match(/^(\d+|[A-Z])/)[0]
   switch (valueMarker) {
@@ -86,26 +88,14 @@ const drawCard = (state, action) => {
   return newState
 }
 
-export const defaultState = {
-  deckId: '',
-  playingId: 0,
-  drawPile: [],
-  discardPile: [],
-  scores: {
-    0: 0,
-    1: 0,
-  },
-  winner: false,
-}
-
 const resetGame = (state, action) => {
-  const newState = Object.assign({}, defaultState)
+  const newState = Object.assign({}, getDefaultState())
   const newDeckId = action.payload
   newState.deckId = newDeckId
   return newState
 }
 
-export default function game(state = defaultState, action) {
+export default function game(state = getDefaultState(), action) {
   switch (action.type) {
     case 'DRAW_CARD_FULFILLED':
       return drawCard(state, action)
