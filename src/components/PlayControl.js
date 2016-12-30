@@ -1,6 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { drawCard, resetGame, swapPlayers } from '../actions/actions'
+import {
+  drawCard,
+  guessHigh,
+  guessLow,
+  resetGame,
+  swapPlayers,
+} from '../actions/actions'
 
 export const PlayControlComponent = (props) => {
   if (!props.drawPileLength && props.cardsRemainingInDeck) {
@@ -12,9 +18,13 @@ export const PlayControlComponent = (props) => {
     <div>
       <strong>Current Player</strong>: { `Player ${props.playingId + 1 || 1}` }
       <button
-        onClick={() => props.drawCard(props.deckId)}
+        onClick={props.guessHigh}
         disabled={props.cardsRemainingInDeck <= 0}
-      >Draw Card</button>
+      >Guess High</button>
+      <button
+        onClick={props.guessLow}
+        disabled={props.cardsRemainingInDeck <= 0}
+      >Guess Low</button>
       <button
         onClick={props.swapPlayers}
         disabled={props.drawPileLength < 4 || !props.cardsRemainingInDeck}
@@ -29,6 +39,8 @@ PlayControlComponent.propTypes = {
   deckId: React.PropTypes.string.isRequired,
   drawCard: React.PropTypes.func.isRequired,
   drawPileLength: React.PropTypes.number.isRequired,
+  guessHigh: React.PropTypes.func.isRequired,
+  guessLow: React.PropTypes.func.isRequired,
   playingId: React.PropTypes.number.isRequired,
   resetGame: React.PropTypes.func.isRequired,
   swapPlayers: React.PropTypes.func.isRequired,
@@ -42,6 +54,6 @@ const mapStateToProps = ({ deckId, discardPile, drawPile, playingId }) => ({
 })
 const PlayControl = connect(
   mapStateToProps,
-  { drawCard, resetGame, swapPlayers },
+  { drawCard, guessHigh, guessLow, resetGame, swapPlayers },
 )(PlayControlComponent)
 export default PlayControl

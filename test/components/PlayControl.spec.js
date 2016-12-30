@@ -1,61 +1,125 @@
 import { PlayControlComponent } from '../../src/components/PlayControl'
 
 describe('<PlayControl />', function () {
+  const findButton = (wrapper, buttonText) => wrapper
+    .find('button')
+    .findWhere(n => n.text() === buttonText)
+    .at(0)
+
   it('Creates a Presentation Component', function () {
-    const drawCard = sinon.stub().returns('10S')
+    const drawCard = sinon.spy()
+    const guessHigh = sinon.spy()
+    const guessLow = sinon.spy()
     const resetGame = sinon.spy()
     const swapPlayers = sinon.spy()
 
     const wrapper = shallow(
       <PlayControlComponent
+        cardsRemainingInDeck={34}
+        deckId={'7'}
         drawCard={drawCard}
-        drawPileLength={3}
+        drawPileLength={4}
+        guessHigh={guessHigh}
+        guessLow={guessLow}
         playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
       />
     )
     expect(wrapper.text()).to.contain('Current Player: Player 2')
-    const testButton = (text, spy) => {
-      wrapper
-        .find('button')
-        .findWhere(n => n.text() === text)
-        .at(0)
-        .simulate('click')
+
+    const testButton = (wrapper, text, spy) => {
+      const button = findButton(wrapper, text)
+      button.simulate('click')
       expect(spy).to.have.property('callCount', 1)
+      expect(button).to.not.have.attr('disabled')
     }
 
-    testButton('Draw Card', drawCard)
-    expect(drawCard.calledWith('AS')).to.be.true
-
-    testButton('Swap Players', swapPlayers)
-    const swapButton = wrapper
-      .find('button')
-      .findWhere(n => n.text() === 'Swap Players')
-      .at(0)
-    expect(swapButton).to.not.have.attr('disabled')
-
-    testButton('Reset Game', resetGame)
+    testButton(wrapper, 'Guess High', guessHigh)
+    testButton(wrapper, 'Guess Low', guessLow)
+    testButton(wrapper, 'Swap Players', swapPlayers)
+    testButton(wrapper, 'Reset Game', resetGame)
   });
 
-  it('Disables the swap button for small draw piles', function () {
-    const drawCard = sinon.stub().returns('10S')
+  it('Renders nothing and draws a card when no draw pile', function () {
+    const drawCard = sinon.spy()
+    const guessHigh = sinon.spy()
+    const guessLow = sinon.spy()
     const resetGame = sinon.spy()
     const swapPlayers = sinon.spy()
 
     const wrapper = shallow(
       <PlayControlComponent
+        cardsRemainingInDeck={34}
+        deckId={'7'}
         drawCard={drawCard}
-        drawPileLength={2}
+        drawPileLength={0}
+        guessHigh={guessHigh}
+        guessLow={guessLow}
         playingId={1}
         resetGame={resetGame}
         swapPlayers={swapPlayers}
       />
     )
-    const swapButton = wrapper
-      .find('button')
-      .findWhere(n => n.text() === 'Swap Players')
-      .at(0)
+    expect(wrapper.text()).to.be.empty
+    expect(drawCard).to.have.property('callCount', 1)
+    expect(drawCard.calledWith('7')).to.be.true
+  });
+
+  it('Disables the guess buttons when there are no cards left', function () {
+    const drawCard = sinon.spy()
+    const guessHigh = sinon.spy()
+    const guessLow = sinon.spy()
+    const resetGame = sinon.spy()
+    const swapPlayers = sinon.spy()
+
+    const wrapper = shallow(
+      <PlayControlComponent
+        cardsRemainingInDeck={0}
+        deckId={'7'}
+        drawCard={drawCard}
+        drawPileLength={3}
+        guessHigh={guessHigh}
+        guessLow={guessLow}
+        playingId={1}
+        resetGame={resetGame}
+        swapPlayers={swapPlayers}
+      />
+    )
+    expect(wrapper.text()).to.contain('Current Player: Player 2')
+
+    const buttonShouldBeDisabled = (wrapper, buttonText) => {
+      const thisButton = findButton(wrapper, buttonText)
+      expect(thisButton).to.have.attr('disabled')
+    }
+
+    buttonShouldBeDisabled(wrapper, 'Guess High')
+    buttonShouldBeDisabled(wrapper, 'Guess Low')
+    buttonShouldBeDisabled(wrapper, 'Swap Players')
+  });
+
+  it('Disables the Swap Players button if the draw pile is too short', function () {
+    const drawCard = sinon.spy()
+    const guessHigh = sinon.spy()
+    const guessLow = sinon.spy()
+    const resetGame = sinon.spy()
+    const swapPlayers = sinon.spy()
+
+    const wrapper = shallow(
+      <PlayControlComponent
+        cardsRemainingInDeck={9}
+        deckId={'7'}
+        drawCard={drawCard}
+        drawPileLength={3}
+        guessHigh={guessHigh}
+        guessLow={guessLow}
+        playingId={1}
+        resetGame={resetGame}
+        swapPlayers={swapPlayers}
+      />
+    )
+
+    const swapButton = findButton(wrapper, 'Swap Players')
     expect(swapButton).to.have.attr('disabled')
   });
 });

@@ -20,9 +20,15 @@ describe('Action Creators', function () {
   });
 
   it('drawCard', function () {
-    expect(drawCard('AS')).to.deep.equal({
+    const stub = {
+      then() {
+        return 'foo'
+      }
+    }
+    const fetch = sinon.stub().returns(stub)
+    expect(drawCard('7', fetch)).to.deep.equal({
       type: 'DRAW_CARD',
-      card: 'AS'
+      payload: 'foo'
     })
   });
 

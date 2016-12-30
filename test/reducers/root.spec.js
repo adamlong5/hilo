@@ -35,8 +35,10 @@ describe('Reducer', function () {
       drawPile: ['AS', 'KS']
     }
     const action = {
-      type: 'DRAW_CARD',
-      card: '10S'
+      type: 'DRAW_CARD_FULFILLED',
+      payload: {
+        cards: [{ code: '10S' }]
+      }
     }
     expect(game(state, action)).to.deep.equal({
       drawPile: ['AS', 'KS', '10S']
