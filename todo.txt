@@ -25,7 +25,7 @@ Game state = {
 }
 
 Gameplay
-Flip card (neutral)
+Flip card (neutral, whenever there is no draw pile)
   Guess correctly
     Flip another card
   Guess incorrectly
