@@ -1,7 +1,25 @@
-const drawCard = (state, action) => {
+const convertCardToNumber = (card) => {
+  const valueMarker = card.match(/^(\d+|[A-Z])/)[0]
+  switch (valueMarker) {
+    case 'A':
+      return 14
+    case 'K':
+      return 13
+    case 'Q':
+      return 12
+    case 'J':
+      return 11
+    default:
+      // Digits
+      return parseInt(valueMarker, 10)
+  }
+}
+
+const addToScore = (state, amount) => {
   const newState = Object.assign({}, state)
-  const newCard = action.payload
-  newState.drawPile = [...newState.drawPile, newCard]
+  const { playingId } = newState
+  newState.scores = Object.assign({}, newState.scores)
+  newState.scores[playingId] += amount
   return newState
 }
 
@@ -18,11 +36,32 @@ const swapPlayers = (state) => {
   return newState
 }
 
-const addToScore = (state, action) => {
-  const newState = Object.assign({}, state)
-  const { playerId, amount } = action
-  newState.scores = Object.assign({}, newState.scores)
-  newState.scores[playerId] += amount
+const getDrawPileLength = state => state.drawPile.length
+
+const drawCard = (state, action) => {
+  let newState = Object.assign({}, state)
+  const newCard = action.payload
+  newState.drawPile = [...newState.drawPile, newCard]
+  if (action.guess !== 0) {
+    // Check their guess
+    const drawPileLength = getDrawPileLength(newState)
+    const lastCard = newState.drawPile[drawPileLength - 2]
+    const newCardVal = convertCardToNumber(newCard)
+    const lastCardVal = convertCardToNumber(lastCard)
+
+    const correctGuess = action.guess === 1 ?
+      newCardVal >= lastCardVal : newCardVal <= lastCardVal
+
+    if (!correctGuess) {
+      // Add score to current player
+      newState = addToScore(newState, drawPileLength)
+      // discard()
+      newState = discard(newState)
+      // swapPlayers()
+      newState = swapPlayers(newState)
+    }
+  }
+
   return newState
 }
 
@@ -40,14 +79,10 @@ export default function game(state = defaultState, action) {
   switch (action.type) {
     case 'DRAW_CARD_FULFILLED':
       return drawCard(state, action)
-    case 'DISCARD':
-      return discard(state)
     case 'SWAP_PLAYERS':
       return swapPlayers(state)
     case 'RESET':
       return defaultState
-    case 'ADD_TO_SCORE':
-      return addToScore(state, action)
     default:
       return state
   }

@@ -1,35 +1,6 @@
 import game, { defaultState } from '../../src/reducers/root'
 
 describe('Reducer', function () {
-  it('adds to score', function () {
-    const state = {
-      scores: {
-        0: 4,
-        1: 2
-      }
-    }
-
-    const addTo0 = {
-      type: 'ADD_TO_SCORE',
-      playerId: 0,
-      amount: 1
-    }
-    expect(game(state, addTo0).scores).to.deep.equal({
-      0: 5,
-      1: 2
-    })
-
-    const addTo1 = {
-      type: 'ADD_TO_SCORE',
-      playerId: 1,
-      amount: 3
-    }
-    expect(game(state, addTo1).scores).to.deep.equal({
-      0: 4,
-      1: 5
-    })
-  });
-
   it('Draws a card', function () {
     const state = {
       drawPile: ['AS', 'KS']
@@ -44,17 +15,97 @@ describe('Reducer', function () {
     })
   });
 
-  it('Discards the draw pile', function () {
+  it('Guesses high', function () {
     const state = {
-      drawPile: ['AS', 'KS'],
-      discardPile: ['10D']
+      deckId: 'lksjssjl',
+      playingId: 1,
+      drawPile: ['AS', '10D'],
+      discardPile: ['KD'],
+      scores: {
+        0: 3,
+        1: 7,
+      },
     }
-    const action = {
-      type: 'DISCARD'
+    // Correct guess
+    const correctGuess = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: 'JD',
+      guess: 1
     }
-    expect(game(state, action)).to.deep.equal({
+    const correctResult = game(state, correctGuess)
+    expect(correctResult).to.deep.equal({
+      deckId: 'lksjssjl',
+      playingId: 1,
+      drawPile: ['AS', '10D', 'JD'],
+      discardPile: ['KD'],
+      scores: {
+        0: 3,
+        1: 7,
+      },
+    })
+    // Incorrect guess
+    const incorrectGuess = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: '3D',
+      guess: 1
+    }
+    const incorrectResult = game(state, incorrectGuess)
+    expect(incorrectResult).to.deep.equal({
+      deckId: 'lksjssjl',
+      playingId: 0,
       drawPile: [],
-      discardPile: ['10D', 'AS', 'KS']
+      discardPile: ['KD', 'AS', '10D', '3D'],
+      scores: {
+        0: 3,
+        1: 10,
+      },
+    })
+  });
+
+  it('Guesses low', function () {
+    const state = {
+      deckId: 'lksjssjl',
+      playingId: 1,
+      drawPile: ['AS', '10D'],
+      discardPile: ['KD'],
+      scores: {
+        0: 3,
+        1: 7,
+      },
+    }
+    // Correct guess
+    const correctGuess = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: '3D',
+      guess: -1
+    }
+    const correctResult = game(state, correctGuess)
+    expect(correctResult).to.deep.equal({
+      deckId: 'lksjssjl',
+      playingId: 1,
+      drawPile: ['AS', '10D', '3D'],
+      discardPile: ['KD'],
+      scores: {
+        0: 3,
+        1: 7,
+      },
+    })
+    // Incorrect guess
+    const incorrectGuess = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: 'JD',
+      guess: -1
+    }
+    const incorrectResult = game(state, incorrectGuess)
+    expect(incorrectResult).to.deep.equal({
+      deckId: 'lksjssjl',
+      playingId: 0,
+      drawPile: [],
+      discardPile: ['KD', 'AS', '10D', 'JD'],
+      scores: {
+        0: 3,
+        1: 10,
+      },
     })
   });
 
