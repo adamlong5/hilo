@@ -73,6 +73,14 @@ export const defaultState = {
     1: 0,
   },
 }
+
+const resetGame = (state, action) => {
+  const newState = Object.assign({}, defaultState)
+  const newDeckId = action.payload
+  newState.deckId = newDeckId
+  return newState
+}
+
 export default function game(state = defaultState, action) {
   switch (action.type) {
     case 'DRAW_CARD_FULFILLED':
@@ -80,7 +88,7 @@ export default function game(state = defaultState, action) {
     case 'SWAP_PLAYERS':
       return swapPlayers(state)
     case 'RESET':
-      return defaultState
+      return resetGame(state, action)
     default:
       return state
   }

@@ -144,9 +144,12 @@ describe('Reducer', function () {
       },
     }
     const action = {
-      type: 'RESET'
+      type: 'RESET',
+      payload: 'foo'
     }
-    expect(game(state, action)).to.deep.equal(defaultState)
+    const expectedState = Object.assign({}, defaultState)
+    expectedState.deckId = 'foo'
+    expect(game(state, action)).to.deep.equal(expectedState)
   });
 
   it('Deals with unexpected events', function () {
