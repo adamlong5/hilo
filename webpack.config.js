@@ -3,8 +3,8 @@ const path = require('path');                // a useful node path helper librar
 
 const config = {
   entry: [
-    'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:3000',
+    // 'webpack/hot/dev-server',
+    // 'webpack-dev-server/client?http://localhost:3000',
     './src/main.js'
   ],
   output: {

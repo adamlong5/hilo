@@ -29944,7 +29944,7 @@
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
-	var _Hilo = __webpack_require__(520);
+	var _Hilo = __webpack_require__(521);
 
 	var _Hilo2 = _interopRequireDefault(_Hilo);
 
@@ -32209,24 +32209,18 @@
 
 	var _root2 = _interopRequireDefault(_root);
 
+	var _defaultState = __webpack_require__(520);
+
+	var _defaultState2 = _interopRequireDefault(_defaultState);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* eslint-disable no-underscore-dangle */
 	/* eslint-disable no-undef */
 	var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
-	var defaultState = {
-	  deckId: '',
-	  playingId: 0,
-	  drawPile: [],
-	  discardPile: [],
-	  scores: {
-	    0: 0,
-	    1: 0
-	  },
-	  winner: false
-	};
+
 	function configureStore(deckId) {
-	  var preloadedState = defaultState;
+	  var preloadedState = (0, _defaultState2.default)();
 	  preloadedState.deckId = deckId;
 	  return (0, _redux.createStore)(_root2.default, preloadedState, composeEnhancers((0, _redux.applyMiddleware)((0, _reduxPromiseMiddleware2.default)())));
 	}
@@ -32429,7 +32423,7 @@
 
 /***/ },
 /* 519 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -32437,6 +32431,12 @@
 	  value: true
 	});
 	exports.default = game;
+
+	var _defaultState = __webpack_require__(520);
+
+	var _defaultState2 = _interopRequireDefault(_defaultState);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -32476,6 +32476,7 @@
 	var swapPlayers = function swapPlayers(state) {
 	  var newState = Object.assign({}, state);
 	  newState.playingId = newState.playingId === 0 ? 1 : 0;
+	  newState.justSwapped = true;
 	  return newState;
 	};
 
@@ -32526,30 +32527,19 @@
 	  }
 
 	  newState = checkWinner(newState);
+	  newState.justSwapped = false;
 	  return newState;
 	};
 
-	var defaultState = exports.defaultState = {
-	  deckId: '',
-	  playingId: 0,
-	  drawPile: [],
-	  discardPile: [],
-	  scores: {
-	    0: 0,
-	    1: 0
-	  },
-	  winner: false
-	};
-
 	var resetGame = function resetGame(state, action) {
-	  var newState = Object.assign({}, defaultState);
+	  var newState = Object.assign({}, (0, _defaultState2.default)());
 	  var newDeckId = action.payload;
 	  newState.deckId = newDeckId;
 	  return newState;
 	};
 
 	function game() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _defaultState2.default)();
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -32566,6 +32556,31 @@
 
 /***/ },
 /* 520 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = getDefaultState;
+	function getDefaultState() {
+	  return {
+	    deckId: '',
+	    discardPile: [],
+	    drawPile: [],
+	    justSwapped: false,
+	    playingId: 0,
+	    scores: {
+	      0: 0,
+	      1: 0
+	    },
+	    winner: false
+	  };
+	}
+
+/***/ },
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32578,15 +32593,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Score = __webpack_require__(521);
+	var _Score = __webpack_require__(522);
 
 	var _Score2 = _interopRequireDefault(_Score);
 
-	var _Deck = __webpack_require__(522);
+	var _Deck = __webpack_require__(523);
 
 	var _Deck2 = _interopRequireDefault(_Deck);
 
-	var _PlayControl = __webpack_require__(523);
+	var _PlayControl = __webpack_require__(524);
 
 	var _PlayControl2 = _interopRequireDefault(_PlayControl);
 
@@ -32610,7 +32625,7 @@
 	exports.default = Hilo;
 
 /***/ },
-/* 521 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32674,7 +32689,7 @@
 	exports.default = Score;
 
 /***/ },
-/* 522 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32740,7 +32755,7 @@
 	exports.default = Deck;
 
 /***/ },
-/* 523 */
+/* 524 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32756,7 +32771,7 @@
 
 	var _reactRedux = __webpack_require__(478);
 
-	var _actions = __webpack_require__(524);
+	var _actions = __webpack_require__(525);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32818,7 +32833,7 @@
 	      'button',
 	      {
 	        onClick: props.swapPlayers,
-	        disabled: props.drawPileLength < 4 || props.cardsRemainingInDeck === 0
+	        disabled: props.justSwapped || props.drawPileLength < 4 || props.cardsRemainingInDeck === 0
 	      },
 	      'Swap Players'
 	    ),
@@ -32833,6 +32848,7 @@
 	  drawPileLength: _react2.default.PropTypes.number.isRequired,
 	  guessHigh: _react2.default.PropTypes.func.isRequired,
 	  guessLow: _react2.default.PropTypes.func.isRequired,
+	  justSwapped: _react2.default.PropTypes.bool.isRequired,
 	  playingId: _react2.default.PropTypes.number.isRequired,
 	  resetGame: _react2.default.PropTypes.func.isRequired,
 	  swapPlayers: _react2.default.PropTypes.func.isRequired,
@@ -32843,13 +32859,15 @@
 	  var deckId = _ref.deckId,
 	      discardPile = _ref.discardPile,
 	      drawPile = _ref.drawPile,
+	      justSwapped = _ref.justSwapped,
 	      playingId = _ref.playingId,
 	      winner = _ref.winner;
 	  return {
-	    deckId: deckId,
-	    playingId: playingId,
-	    drawPileLength: drawPile.length || 0,
 	    cardsRemainingInDeck: 52 - drawPile.length - discardPile.length || 52,
+	    deckId: deckId,
+	    drawPileLength: drawPile.length || 0,
+	    justSwapped: justSwapped,
+	    playingId: playingId,
 	    winner: winner
 	  };
 	};
@@ -32858,7 +32876,7 @@
 	exports.default = PlayControl;
 
 /***/ },
-/* 524 */
+/* 525 */
 /***/ function(module, exports) {
 
 	'use strict';
