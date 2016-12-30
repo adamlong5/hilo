@@ -46,9 +46,11 @@ const checkWinner = (state) => {
   const gameOver = noCardsLeftInDeck || player0Wins || player1Wins
 
   if (gameOver) {
-    if (player0Wins) newState.winner = 0
-    if (player1Wins) newState.winner = 1
-    else {
+    if (player0Wins) {
+      newState.winner = 0
+    } else if (player1Wins) {
+      newState.winner = 1
+    } else {
       newState.winner = newState.scores[0] >= newState.scores[1] ? 0 : 1
     }
   }

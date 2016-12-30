@@ -171,10 +171,10 @@ describe('Reducer', function () {
       drawPile: ['AS', 'KS'],
       discardPile: [],
       scores: {
-        0: 24,
-        1: 2
+        0: 2,
+        1: 24
       },
-      playingId: 0,
+      playingId: 1,
       winner: false
     }
 
@@ -188,12 +188,12 @@ describe('Reducer', function () {
     expect(game(state, action)).to.deep.equal({
       drawPile: [],
       discardPile: ['AS', 'KS', '10S'],
-      playingId: 0,
+      playingId: 1,
       scores: {
-        0: 27,
-        1: 2
+        0: 2,
+        1: 27
       },
-      winner: 1
+      winner: 0
     })
   });
 

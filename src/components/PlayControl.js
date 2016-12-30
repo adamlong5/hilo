@@ -55,7 +55,10 @@ PlayControlComponent.propTypes = {
   playingId: React.PropTypes.number.isRequired,
   resetGame: React.PropTypes.func.isRequired,
   swapPlayers: React.PropTypes.func.isRequired,
-  winner: React.PropTypes.oneOf(React.PropTypes.bool, React.PropTypes.number)
+  winner: React.PropTypes.oneOfType(
+    React.PropTypes.bool,
+    React.PropTypes.number
+  ),
 }
 
 const mapStateToProps = ({
