@@ -58,7 +58,7 @@ describe('Reducer', function () {
     const incorrectResult = game(state, incorrectGuess)
     expect(incorrectResult).to.deep.equal({
       deckId: 'lksjssjl',
-      playingId: 0,
+      playingId: 1,
       drawPile: [],
       discardPile: ['KD', 'AS', '10D', '3D'],
       scores: {
@@ -109,7 +109,7 @@ describe('Reducer', function () {
     const incorrectResult = game(state, incorrectGuess)
     expect(incorrectResult).to.deep.equal({
       deckId: 'lksjssjl',
-      playingId: 0,
+      playingId: 1,
       drawPile: [],
       discardPile: ['KD', 'AS', '10D', 'JD'],
       scores: {

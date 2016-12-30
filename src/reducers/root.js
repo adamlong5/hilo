@@ -57,8 +57,6 @@ const drawCard = (state, action) => {
       newState = addToScore(newState, drawPileLength)
       // discard()
       newState = discard(newState)
-      // swapPlayers()
-      newState = swapPlayers(newState)
     }
   }
 
