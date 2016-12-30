@@ -38,7 +38,7 @@ export const PlayControlComponent = (props) => {
       >Guess Low</button>
       <button
         onClick={props.swapPlayers}
-        disabled={props.drawPileLength < 4 || props.cardsRemainingInDeck === 0}
+        disabled={props.justSwapped || props.drawPileLength < 4 || props.cardsRemainingInDeck === 0}
       >Swap Players</button>
       {getResetButton(props)}
     </div>
@@ -52,6 +52,7 @@ PlayControlComponent.propTypes = {
   drawPileLength: React.PropTypes.number.isRequired,
   guessHigh: React.PropTypes.func.isRequired,
   guessLow: React.PropTypes.func.isRequired,
+  justSwapped: React.PropTypes.bool.isRequired,
   playingId: React.PropTypes.number.isRequired,
   resetGame: React.PropTypes.func.isRequired,
   swapPlayers: React.PropTypes.func.isRequired,
@@ -65,13 +66,15 @@ const mapStateToProps = ({
     deckId,
     discardPile,
     drawPile,
+    justSwapped,
     playingId,
     winner,
   }) => ({
-    deckId,
-    playingId,
-    drawPileLength: drawPile.length || 0,
     cardsRemainingInDeck: (52 - drawPile.length - discardPile.length) || 52,
+    deckId,
+    drawPileLength: drawPile.length || 0,
+    justSwapped,
+    playingId,
     winner,
   })
 
