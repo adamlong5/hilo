@@ -36,6 +36,26 @@ const swapPlayers = (state) => {
   return newState
 }
 
+const checkWinner = (state) => {
+  const newState = Object.assign({}, state)
+
+  const noCardsLeftInDeck =
+    newState.drawPile.length + newState.discardPile.length >= 52
+  const player0Wins = newState.scores[1] >= 27
+  const player1Wins = newState.scores[0] >= 27
+  const gameOver = noCardsLeftInDeck || player0Wins || player1Wins
+
+  if (gameOver) {
+    if (player0Wins) newState.winner = 0
+    if (player1Wins) newState.winner = 1
+    else {
+      newState.winner = newState.scores[0] >= newState.scores[1] ? 0 : 1
+    }
+  }
+
+  return newState
+}
+
 const getDrawPileLength = state => state.drawPile.length
 
 const drawCard = (state, action) => {
@@ -60,6 +80,7 @@ const drawCard = (state, action) => {
     }
   }
 
+  newState = checkWinner(newState)
   return newState
 }
 

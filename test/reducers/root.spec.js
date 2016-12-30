@@ -3,7 +3,13 @@ import game, { defaultState } from '../../src/reducers/root'
 describe('Reducer', function () {
   it('Draws a card', function () {
     const state = {
-      drawPile: ['AS', 'KS']
+      drawPile: ['AS', 'KS'],
+      discardPile: [],
+      winner: false,
+      scores: {
+        0: 2,
+        1: 1,
+      }
     }
     const action = {
       type: 'DRAW_CARD_FULFILLED',
@@ -13,7 +19,13 @@ describe('Reducer', function () {
       }
     }
     expect(game(state, action)).to.deep.equal({
-      drawPile: ['AS', 'KS', '10S']
+      drawPile: ['AS', 'KS', '10S'],
+      discardPile: [],
+      winner: false,
+      scores: {
+        0: 2,
+        1: 1,
+      }
     })
   });
 
@@ -27,6 +39,7 @@ describe('Reducer', function () {
         0: 3,
         1: 7,
       },
+      winner: false
     }
     // Correct guess
     const correctGuess = {
@@ -46,6 +59,7 @@ describe('Reducer', function () {
         0: 3,
         1: 7,
       },
+      winner: false
     })
     // Incorrect guess
     const incorrectGuess = {
@@ -65,6 +79,7 @@ describe('Reducer', function () {
         0: 3,
         1: 10,
       },
+      winner: false
     })
   });
 
@@ -78,6 +93,7 @@ describe('Reducer', function () {
         0: 3,
         1: 7,
       },
+      winner: false
     }
     // Correct guess
     const correctGuess = {
@@ -97,6 +113,7 @@ describe('Reducer', function () {
         0: 3,
         1: 7,
       },
+      winner: false
     })
     // Incorrect guess
     const incorrectGuess = {
@@ -116,6 +133,67 @@ describe('Reducer', function () {
         0: 3,
         1: 10,
       },
+      winner: false
+    })
+  });
+
+  it('Ends the game when no cards left', function () {
+    const state = {
+      drawPile: ['AS', 'KS'],
+      discardPile: Array.from({length: 49}).fill('foo'),
+      scores: {
+        0: 3,
+        1: 2
+      },
+      winner: false
+    }
+
+    const action = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: {
+        card: '10S',
+        guess: 0
+      }
+    }
+    expect(game(state, action)).to.deep.equal({
+      drawPile: ['AS', 'KS', '10S'],
+      discardPile: Array.from({length: 49}).fill('foo'),
+      scores: {
+        0: 3,
+        1: 2
+      },
+      winner: 0
+    })
+  });
+
+  it('Ends the game when one player has 27', function () {
+    const state = {
+      drawPile: ['AS', 'KS'],
+      discardPile: [],
+      scores: {
+        0: 24,
+        1: 2
+      },
+      playingId: 0,
+      winner: false
+    }
+
+    const action = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: {
+        card: '10S',
+        guess: 1
+      }
+    }
+    expect(game(state, action)).to.deep.equal({
+      drawPile: [],
+      discardPile: ['AS', 'KS', '10S'],
+      playingId: 0,
+      scores: {
+        0: 27,
+        1: 2
+      },
+      winner: 1
     })
   });
 
