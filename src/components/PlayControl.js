@@ -18,11 +18,11 @@ export const PlayControlComponent = (props) => {
     <div>
       <strong>Current Player</strong>: { `Player ${props.playingId + 1 || 1}` }
       <button
-        onClick={props.guessHigh}
+        onClick={() => props.guessHigh(props.deckId)}
         disabled={props.cardsRemainingInDeck <= 0}
       >Guess High</button>
       <button
-        onClick={props.guessLow}
+        onClick={() => props.guessLow(props.deckId)}
         disabled={props.cardsRemainingInDeck <= 0}
       >Guess Low</button>
       <button

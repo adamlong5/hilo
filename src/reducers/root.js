@@ -1,6 +1,6 @@
 const drawCard = (state, action) => {
   const newState = Object.assign({}, state)
-  const newCard = action.payload.cards[0].code
+  const newCard = action.payload
   newState.drawPile = [...newState.drawPile, newCard]
   return newState
 }

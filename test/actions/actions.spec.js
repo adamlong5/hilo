@@ -19,17 +19,34 @@ describe('Action Creators', function () {
     })
   });
 
-  it('drawCard', function () {
+  const testFetching = guess => {
     const stub = {
       then() {
-        return 'foo'
+        return {
+          then() {
+            return 'foo'
+          }
+        }
       }
     }
     const fetch = sinon.stub().returns(stub)
-    expect(drawCard('7', fetch)).to.deep.equal({
+    expect(drawCard('7', fetch, guess)).to.deep.equal({
       type: 'DRAW_CARD',
-      payload: 'foo'
+      payload: 'foo',
+      guess
     })
+  }
+
+  it('drawCard', function () {
+    testFetching(0)
+  });
+
+  it('guessHigh', function () {
+    testFetching(1)
+  });
+
+  it('guessLow', function () {
+    testFetching(-1)
   });
 
   it('resetGame', function () {

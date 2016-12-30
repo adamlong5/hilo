@@ -36,7 +36,9 @@ describe('<PlayControl />', function () {
     }
 
     testButton(wrapper, 'Guess High', guessHigh)
+    expect(guessHigh.calledWith('7')).to.be.true
     testButton(wrapper, 'Guess Low', guessLow)
+    expect(guessLow.calledWith('7')).to.be.true
     testButton(wrapper, 'Swap Players', swapPlayers)
     testButton(wrapper, 'Reset Game', resetGame)
   });
