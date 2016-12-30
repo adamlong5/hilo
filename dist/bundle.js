@@ -32852,7 +32852,7 @@
 	  playingId: _react2.default.PropTypes.number.isRequired,
 	  resetGame: _react2.default.PropTypes.func.isRequired,
 	  swapPlayers: _react2.default.PropTypes.func.isRequired,
-	  winner: _react2.default.PropTypes.oneOfType(_react2.default.PropTypes.bool, _react2.default.PropTypes.number)
+	  winner: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.bool, _react2.default.PropTypes.number])
 	};
 
 	var mapStateToProps = function mapStateToProps(_ref) {
