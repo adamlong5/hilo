@@ -150,6 +150,6 @@ describe('<PlayControl />', function () {
         winner={1}
       />
     )
-    expect(wrapper.text()).to.equal('Player 2 Wins!')
+    expect(wrapper.text()).to.equal('Player 2 Wins!Reset Game')
   });
 });

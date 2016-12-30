@@ -8,13 +8,19 @@ import {
   swapPlayers,
 } from '../actions/actions'
 
+const getResetButton = props =>
+  <button onClick={() => props.resetGame(props.deckId)}>Reset Game</button>
+
 export const PlayControlComponent = (props) => {
   if (!props.drawPileLength && props.cardsRemainingInDeck) {
     props.drawCard(props.deckId)
   }
   if (props.winner) {
     return (
-      <div>{`Player ${props.winner + 1} Wins!`}</div>
+      <div>
+        {`Player ${props.winner + 1} Wins!`}
+        {getResetButton(props)}
+      </div>
     )
   }
 
@@ -33,7 +39,7 @@ export const PlayControlComponent = (props) => {
         onClick={props.swapPlayers}
         disabled={props.drawPileLength < 4 || props.cardsRemainingInDeck === 0}
       >Swap Players</button>
-      <button onClick={() => props.resetGame(props.deckId)}>Reset Game</button>
+      {getResetButton(props)}
     </div>
   )
 }
