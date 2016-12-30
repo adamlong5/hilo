@@ -1,6 +1,6 @@
 const drawCard = (state, action) => {
   const newState = Object.assign({}, state)
-  const newCard = action.card
+  const newCard = action.payload.cards[0].code
   newState.drawPile = [...newState.drawPile, newCard]
   return newState
 }
@@ -38,7 +38,7 @@ export const defaultState = {
 }
 export default function game(state = defaultState, action) {
   switch (action.type) {
-    case 'DRAW_CARD':
+    case 'DRAW_CARD_FULFILLED':
       return drawCard(state, action)
     case 'DISCARD':
       return discard(state)
