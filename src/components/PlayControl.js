@@ -19,6 +19,7 @@ export const PlayControlComponent = (props) => {
     return (
       <div>
         {`Player ${props.winner + 1} Wins!`}
+        <br />
         {getResetButton(props)}
       </div>
     )
