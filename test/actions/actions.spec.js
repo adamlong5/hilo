@@ -37,10 +37,16 @@ describe('Action Creators', function () {
       }
     }
     const fetch = sinon.stub().returns(stub)
-    expect(drawCard('7', fetch, guess)).to.deep.equal({
+    const deckId = '7'
+    expect(drawCard(deckId, fetch, guess)).to.deep.equal({
       type: 'DRAW_CARD',
       payload: { card: 'foo', guess }
     })
+    expect(
+      fetch.calledWith(
+        `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+      )
+    ).to.be.true
   }
 
   it('drawCard', function () {
@@ -56,9 +62,26 @@ describe('Action Creators', function () {
   });
 
   it('resetGame', function () {
-    expect(resetGame()).to.deep.equal({
+    const stub = {
+      then() {
+        return {
+          then() {
+            return 'foo'
+          }
+        }
+      }
+    }
+    const fetch = sinon.stub().returns(stub)
+    const deckId = '7'
+    expect(resetGame(deckId, fetch)).to.deep.equal({
       type: 'RESET',
+      payload: 'foo'
     })
+    expect(
+      fetch.calledWith(
+        `https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`
+      )
+    ).to.be.true
   });
 
   it('swapPlayers', function () {

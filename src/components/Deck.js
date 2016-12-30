@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 export const DeckComponent = props => (
   <div>
-    <strong>Left in deck</strong>: {(52 - props.drawPile.length - props.discardPile.length) || 52}
+    <strong>Left in deck</strong>: {(52 - props.drawPile.length - props.discardPile.length)}
     <br />
     <strong>Drawn cards</strong>: {props.drawPile.join(', ') || ''}
     <br />

@@ -24,18 +24,6 @@ Game state = {
   playing = 0,
 }
 
-Gameplay
-Flip card (neutral, whenever there is no draw pile)
-  Guess correctly
-    Flip another card
-  Guess incorrectly
-    Put cards into discard
-    Add to that player's score
-  Out of cards in deck
-    End the game in some way
-    Disable buttons
-  Swap players
-    Swap active playerId
-    Disable swap until they have made a guess
-RESET
-  Shuffle deck
+Todo
+- End game
+- Reset

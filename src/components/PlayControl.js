@@ -19,15 +19,15 @@ export const PlayControlComponent = (props) => {
       <strong>Current Player</strong>: { `Player ${props.playingId + 1 || 1}` }
       <button
         onClick={() => props.guessHigh(props.deckId)}
-        disabled={props.cardsRemainingInDeck <= 0}
+        disabled={props.cardsRemainingInDeck === 0}
       >Guess High</button>
       <button
         onClick={() => props.guessLow(props.deckId)}
-        disabled={props.cardsRemainingInDeck <= 0}
+        disabled={props.cardsRemainingInDeck === 0}
       >Guess Low</button>
       <button
         onClick={props.swapPlayers}
-        disabled={props.drawPileLength < 4 || !props.cardsRemainingInDeck}
+        disabled={props.drawPileLength < 4 || props.cardsRemainingInDeck === 0}
       >Swap Players</button>
       <button onClick={props.resetGame}>Reset Game</button>
     </div>
