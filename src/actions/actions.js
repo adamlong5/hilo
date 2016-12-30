@@ -1,9 +1,3 @@
-export const addToScore = (playerId, amount) => ({
-  type: 'ADD_TO_SCORE',
-  playerId,
-  amount,
-})
-
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 // Allow passing in a fetch for testing
