@@ -200,7 +200,28 @@ describe('Reducer', function () {
     const result1 = game(state, action)
     const result2 = game(result1, action)
     expect(result1.playingId).to.equal(1)
-    expect(result2).to.deep.equal(state)
+    expect(result1.justSwapped).to.be.true
+    expect(result2.playingId).to.equal(0)
+    expect(result2.justSwapped).to.be.true
+  });
+
+  it('Resets justSwapped status after drawing a card', function () {
+    const state = makeState({
+      justSwapped: true
+    })
+    const action = {
+      type: 'DRAW_CARD_FULFILLED',
+      payload: {
+        card: '1S',
+        guess: 0
+      }
+    }
+    expect(game(state, action)).to.deep.equal(
+      makeState({
+        justSwapped: false,
+        drawPile: ['1S']
+      })
+    )
   });
 
   it('Resets the game', function () {

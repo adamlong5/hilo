@@ -3,6 +3,7 @@ export default function getDefaultState() {
     deckId: '',
     discardPile: [],
     drawPile: [],
+    justSwapped: false,
     playingId: 0,
     scores: {
       0: 0,

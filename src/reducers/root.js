@@ -35,6 +35,7 @@ const discard = (state) => {
 const swapPlayers = (state) => {
   const newState = Object.assign({}, state)
   newState.playingId = newState.playingId === 0 ? 1 : 0
+  newState.justSwapped = true
   return newState
 }
 
@@ -85,6 +86,7 @@ const drawCard = (state, action) => {
   }
 
   newState = checkWinner(newState)
+  newState.justSwapped = false
   return newState
 }
 
